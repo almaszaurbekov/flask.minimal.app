@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+<!-- ПЕРЕДЕЛАТЬ КОНТЕНТ -->
+{% block content %}
+    <h1>Hello Bro!</h1>
+    <ul>
+        <!-- ПЕРЕДЕЛАТЬ КАРТОЧКИ -->
+        {% for vacancy in vacancies %}
+            <li>{{ vacancy['name'] }}</li>
+        {% endfor %}
+        <!-- ПЕРЕДЕЛАТЬ КОНТЕНТ -->
+    </ul>
+{% endblock %}
+<!-- ПЕРЕДЕЛАТЬ КОНТЕНТ -->
