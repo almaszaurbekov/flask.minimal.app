@@ -1,7 +1,7 @@
 class Vacancy():
     def __init__(self, id, name, area, salary, address, published_at, created_at, url, snippet):
 
-        self.name, self.id = id, name
+        self.name, self.id = name, id
         self.published_at, self.created_at, self.url  = published_at, created_at, url
         self.area_name = self.__try_set_value___(area, 'name')
         self.area_url = self.__try_set_value___(area, 'url')
