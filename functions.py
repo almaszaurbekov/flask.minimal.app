@@ -1,31 +1,54 @@
-import requests
-from models import Vacancy
+import pyodbc
 
-api = "https://api.hh.ru/"
+conn = pyodbc.connect('DRIVER={SQL Server};SERVER=DESKTOP-5J1MT1O\SQLEXPRESS01;DATABASE=PythonDB;')
+cursor = conn.cursor()
 
-def get_vacancies(min_count=6):
-    url = api + "vacancies"
-    response = requests.get(url)
-    json = response.json()
+def get_students():
+    try:
+        cursor.execute("SELECT * FROM Student")
+        return jsonify_list(cursor.fetchall())
+    except:
+        return None
 
-    if(min_count > 20):
-        min_count = 20
+def get_student_by_id(id):
+    try:
+        cursor.execute(f"SELECT * FROM Student WHERE Id = {id}")
+        return jsonify(cursor.fetchone())
+    except:
+        return None
 
-    vacancies = []
-    
-    for i in range(min_count):
-        item = json['items'][i]
-        vacancy = Vacancy(item['id'], item['name'], item['area'], item['salary'], 
-        item['address'], item['published_at'], item['created_at'], item['url'], item['snippet'])
-        vacancies.append(vacancy)
+def insert_student(name):
+    try:
+        cursor.execute(f"INSERT INTO Student(name) VALUES ('{name}')")
+        conn.commit()
+        return True
+    except:
+        return False
 
-    return vacancies
+def remove_student_by_id(id):
+    try:
+        cursor.execute(f"DELETE FROM Student WHERE Id = {id}")
+        conn.commit()
+        return True
+    except:
+        return False
 
-def get_vacancy_by_id(id):
-    url = api + "vacancies/" + str(id)
-    response = requests.get(url)
-    json = response.json()
+def update_student_by_id(id, name):
+    try:
+        cursor.execute(f"UPDATE Student SET Name = '{name}' WHERE Id = {id}")
+        conn.commit()
+        return True
+    except:
+        return False
 
-    # обработать json формат #
-    return None
-    # ---------------------- #
+def jsonify_list(rows):
+    return [jsonify(row) for row in rows]
+
+def jsonify(row):
+    return {
+        "id" : row[0],
+        "name" : row[1]
+    }
+
+def is_not_none(value):
+    return value != None and value != ""

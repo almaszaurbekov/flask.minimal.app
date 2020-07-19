@@ -1,14 +1,10 @@
 {% extends "base.html" %}
 
-<!-- ПЕРЕДЕЛАТЬ КОНТЕНТ -->
 {% block content %}
-    <h1>Hello Bro!</h1>
+    <h1>Student List</h1>
     <ul>
-        <!-- ПЕРЕДЕЛАТЬ КАРТОЧКИ -->
-        {% for vacancy in vacancies %}
-            <li>{{ vacancy['name'] }}</li>
+        {% for item in items %}
+            <li>{{ item['id'] }}: {{ item['name'] }} | <a href="{{ url_for('update_student', id=item['id']) }}">Изменить</a> | <a href="{{ url_for('remove_student', id=item['id']) }}">Удалить</a></li>
         {% endfor %}
-        <!-- ПЕРЕДЕЛАТЬ КОНТЕНТ -->
     </ul>
 {% endblock %}
-<!-- ПЕРЕДЕЛАТЬ КОНТЕНТ -->
